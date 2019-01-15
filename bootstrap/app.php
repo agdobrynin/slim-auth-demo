@@ -9,7 +9,7 @@ $app = new Slim\App([
 ]);
 
 $container = $app->getContainer();
-/** @var \Slim\Views\Twig $container['view'] */
+/** @var \Slim\Views\Twig $container ['view'] */
 $container['view'] = function ($container) {
     $view = new Slim\Views\Twig(__DIR__ . '/../resources/views', [
         'cache' => false,
@@ -22,6 +22,10 @@ $container['view'] = function ($container) {
     ));
 
     return $view;
+};
+
+$container['HomeController'] = function ($container) {
+    return new App\Controllers\HomeController($container);
 };
 
 require __DIR__ . '/../app/routes.php';
