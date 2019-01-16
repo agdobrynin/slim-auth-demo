@@ -48,6 +48,10 @@ $container['HomeController'] = function ($container) {
     return new App\Controllers\HomeController($container);
 };
 
+$container['validator'] = function ($container) {
+    return new App\Validation\Validator();
+};
+
 $container['AuthController'] = function ($container) {
     return new App\Controllers\Auth\AuthController($container);
 };
