@@ -25,10 +25,10 @@ $capsule->addConnection($container['settings']['db']);
 $capsule->setAsGlobal();
 $capsule->bootEloquent();
 
+// Register provider
 $container['db'] = function ($container) use ($capsule) {
     return $capsule;
 };
-
 
 $container['HomeController'] = function ($container) {
     return new App\Controllers\HomeController($container);
@@ -45,6 +45,10 @@ $container['AuthController'] = function ($container) {
 
 $container['auth'] = function ($container) {
     return new App\Aauth\Auth();
+};
+
+$container['flash'] = function ($container) {
+    return new \Slim\Flash\Messages();
 };
 
 $container['view'] = function ($container) {
