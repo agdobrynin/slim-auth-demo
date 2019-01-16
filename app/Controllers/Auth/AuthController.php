@@ -68,8 +68,8 @@ class AuthController extends Controller
         ]);
 
         $this->auth->attempt($user->email, $request->getParam('password'));
-
-        return $response->withRedirect($this->router->pathFor('home'));
+        $this->flash->addMessage('info', $user->name . ', привет! Рады что ты с нами :)');
+        return $response->withStatus(302)->withRedirect($this->router->pathFor('home'));
     }
 
     public function getSignIn(Request $request, Response $response)
@@ -85,7 +85,8 @@ class AuthController extends Controller
         );
 
         if (!$auth) {
-            return $this->view->render($response, 'auth/signin.twig');
+            $this->flash->addMessage('error', 'Хм... Мы тебя не узнали :( Попробуй снова.');
+            return $response->withStatus(302)->withRedirect($this->router->pathFor('auth.signin'));
         } else {
             return $response->withRedirect($this->router->pathFor('home'));
         }
