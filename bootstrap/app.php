@@ -43,6 +43,10 @@ $container['AuthController'] = function ($container) {
     return new App\Controllers\Auth\AuthController($container);
 };
 
+$container['auth'] = function ($container) {
+    return new App\Aauth\Auth();
+};
+
 $container['view'] = function ($container) {
     $view = new Slim\Views\Twig(__DIR__ . '/../resources/views', [
         'cache' => false,
@@ -56,6 +60,11 @@ $container['view'] = function ($container) {
     $view->addExtension(
         new Awurth\SlimValidation\ValidatorExtension($container['validator'])
     );
+
+    $view->getEnvironment()->addGlobal('auth', [
+        'check' => $container->auth->check(),
+        'user' => $container->auth->user(),
+    ]);
 
     return $view;
 };

@@ -16,6 +16,12 @@ class AuthController extends Controller
         return $this->view->render($response, 'auth/signup.twig');
     }
 
+    public function getSignOut(Request $request, Response $response)
+    {
+        $this->auth->logout();
+        return $response->withRedirect($this->router->pathFor('home'));
+    }
+
     public function postSignUp(Request $request, Response $response)
     {
 
@@ -55,11 +61,13 @@ class AuthController extends Controller
 
         // Прошли валидацию успешно!
 
-        User::create([
+        $user = User::create([
             'email' => $request->getParam('email'),
             'name' => $request->getParam('name'),
             'password' => password_hash($request->getParam('password'), PASSWORD_DEFAULT),
         ]);
+
+        $this->auth->attempt($user->email, $request->getParam('password'));
 
         return $response->withRedirect($this->router->pathFor('home'));
     }
@@ -67,5 +75,19 @@ class AuthController extends Controller
     public function getSignIn(Request $request, Response $response)
     {
         return $this->view->render($response, 'auth/signin.twig');
+    }
+
+    public function postSignIn(Request $request, Response $response)
+    {
+        $auth = $this->container->auth->attempt(
+            $request->getParam('email'),
+            $request->getParam('password')
+        );
+
+        if (!$auth) {
+            return $this->view->render($response, 'auth/signin.twig');
+        } else {
+            return $response->withRedirect($this->router->pathFor('home'));
+        }
     }
 }
