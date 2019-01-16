@@ -20,6 +20,7 @@ class Users extends AbstractMigration
             ->addColumn('password', 'string', ['null' => false])
             ->addColumn('created_at', 'timestamp')
             ->addColumn('updated_at', 'timestamp', ['null' => true])
+            ->addIndex(['email'], ['unique' => true, 'name' => 'idx_users_email'])
             ->save();
         $users->insert([
             'name' => 'Alex Dobrynin',
