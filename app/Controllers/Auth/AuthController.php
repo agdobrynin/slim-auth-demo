@@ -7,7 +7,7 @@ use App\Controllers\Controller;
 use App\Models\User;
 use Slim\Http\Request;
 use Slim\Http\Response;
-use Respect\Validation\Validator as v;
+use Respect\Validation\Validator as V;
 
 class AuthController extends Controller
 {
@@ -18,23 +18,38 @@ class AuthController extends Controller
 
     public function postSignUp(Request $request, Response $response)
     {
-        /** @var  App\Validation\Validator $validation */
-        $validation = $this->validator->validate($request, [
-            'email' => v::email()
-                ->emailAvailable(),
-            'name' => v::regex('/([\-а-яa-z\s]+)/i')
-                ->length(3, null)
-                ->setTemplate('Имя - обязательное поледолжно содержать только символы (не менее 3х)'),
-            'password' => v::notEmpty()
-                ->noWhitespace()
-                ->length(6, null)
-                ->setTemplate('Пароль - не менее 6-ти сиволов, недолжен содержать пробелов')
-                ->setName('Пароль'),
+
+        $validator = $this->validator->validate($request, [
+            'email' => [
+                'rules' => V::notBlank()->email()->emailUnique(),
+                'messages' => [
+                    'notBlank' => 'Электронная почта обязательный параметр',
+                    'email' => 'Неверный формат электронной почты {{name}}',
+                    'emailUnique' => '{{name}} уже используется на сайте',
+                ]
+            ],
+            'name' =>[
+                'rules' => V::length(6, 100)->regex('/([а-яa-z]+)/i'),
+                'messages' => [
+                    'length' => 'Имя должно быть от 6 до 100 символов',
+                    'regex' => 'Имя может содержать русские или латинские буквы и пробел',
+                ]
+            ],
+            'password' =>[
+                'rules' => V::length(6, null)->noWhitespace(),
+                'messages' => [
+                    'length' => 'Длина пароля не менее 6 символов',
+                    'noWhitespace' => 'Пароль содержит символ "пробел"',
+                ]
+            ],
         ]);
 
-        if ($validation->failed()) {
-            return $response->withRedirect($this->router->pathFor('auth.signup'));
+        // УПС - валадация сломана :-(
+        if (!$validator->isValid()) {
+            return $this->view->render($response, 'auth/signup.twig');
         }
+
+        // Прошли валидацию успешно!
 
         User::create([
             'email' => $request->getParam('email'),

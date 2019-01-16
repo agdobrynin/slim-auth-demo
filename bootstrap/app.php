@@ -29,11 +29,23 @@ $container['db'] = function ($container) use ($capsule) {
     return $capsule;
 };
 
-/** @var \Slim\Views\Twig $container ['view'] */
+
+$container['HomeController'] = function ($container) {
+    return new App\Controllers\HomeController($container);
+};
+
+$container['validator'] = function ($container) {
+    \Respect\Validation\Validator::with('\\App\\Validation\\Rules');
+    return new Awurth\SlimValidation\Validator();
+};
+
+$container['AuthController'] = function ($container) {
+    return new App\Controllers\Auth\AuthController($container);
+};
+
 $container['view'] = function ($container) {
     $view = new Slim\Views\Twig(__DIR__ . '/../resources/views', [
         'cache' => false,
-
     ]);
 
     $view->addExtension(new Slim\Views\TwigExtension(
@@ -41,24 +53,11 @@ $container['view'] = function ($container) {
         $container->request->getUri()
     ));
 
+    $view->addExtension(
+        new Awurth\SlimValidation\ValidatorExtension($container['validator'])
+    );
+
     return $view;
 };
-
-$container['HomeController'] = function ($container) {
-    return new App\Controllers\HomeController($container);
-};
-
-$container['validator'] = function ($container) {
-    return new App\Validation\Validator;
-};
-
-$container['AuthController'] = function ($container) {
-    return new App\Controllers\Auth\AuthController($container);
-};
-
-$app->add(new App\Middleware\ValidationErrorsMiddleware($container));
-$app->add(new App\Middleware\OldInputMiddleware($container));
-
-Respect\Validation\Validator::with('App\\Validation\\Rules\\');
 
 require __DIR__ . '/../app/routes.php';

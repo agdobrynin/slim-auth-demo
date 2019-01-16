@@ -9,31 +9,31 @@
                     <form method="POST" autocomplete="off" action="{{ path_for('auth.signup') }}">
                         <div class="form-group">
                             <label>Email address</label>
-                            <input type="email" class="form-control{{ errors.email ? ' is-invalid' :'' }}"
+                            <input type="email" class="form-control{% if has_error('email') %} is-invalid{% endif %}"
                                    name="email"
-                                   value="{{ old.email }}"
+                                   value="{{ val('email') }}"
                                    placeholder="Enter email">
-                            {% if errors.email %}
-                                <small class="form-text text-danger">{{ errors.email | first }}</small>
+                            {% if has_error('email') %}
+                                <small class="form-text text-danger">{{ error('email') }}</small>
                             {% endif %}
                         </div>
                         <div class="form-group">
                             <label>Your name</label>
-                            <input type="text" class="form-control{{ errors.name ? ' is-invalid' :'' }}"
+                            <input type="text" class="form-control{% if has_error('name') %} is-invalid{% endif %}"
                                    name="name"
-                                   value="{{ old.name }}"
+                                   value="{{ val('name') }}"
                                    placeholder="Enter your name">
-                            {% if errors.name %}
-                                <small class="form-text text-danger">{{ errors.name | first }}</small>
+                            {% if has_error('name') %}
+                                <small class="form-text text-danger">{{ error('name') }}</small>
                             {% endif %}
                         </div>
                         <div class="form-group">
                             <label>Password</label>
-                            <input type="password" class="form-control{{ errors.password ? ' is-invalid' :'' }}"
+                            <input type="password" class="form-control{% if has_error('password') %} is-invalid{% endif %}"
                                    name="password"
                                    placeholder="Password">
-                            {% if errors.password %}
-                                <small class="form-text text-danger">{{ errors.password | first }}</small>
+                            {% if has_error('password') %}
+                                <small class="form-text text-danger">{{ error('password') }}</small>
                             {% endif %}
                         </div>
                         <button type="submit" class="btn btn-primary">Sing up</button>

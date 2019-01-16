@@ -4,7 +4,7 @@
         "slim/twig-view": "^2.4",
         "robmorgan/phinx": "^0.10.6",
         "illuminate/database": "^5.7",
-        "respect/validation": "^1.1"
+        "awurth/slim-validation": "^3.1"
     },
     "autoload": {
         "psr-4": {
