@@ -28,19 +28,23 @@ class AuthController extends Controller
                     'emailUnique' => '{{name}} уже используется на сайте',
                 ]
             ],
-            'name' =>[
+            'name' => [
                 'rules' => V::length(6, 100)->regex('/([а-яa-z]+)/i'),
                 'messages' => [
                     'length' => 'Имя должно быть от 6 до 100 символов',
                     'regex' => 'Имя может содержать русские или латинские буквы и пробел',
                 ]
             ],
-            'password' =>[
+            'password' => [
                 'rules' => V::length(6, null)->noWhitespace(),
                 'messages' => [
                     'length' => 'Длина пароля не менее 6 символов',
                     'noWhitespace' => 'Пароль содержит символ "пробел"',
                 ]
+            ],
+            'confirm_password' =>[
+                'rules' => V::equals($request->getParam('password')),
+                'message' => 'Пароли не совпадают',
             ],
         ]);
 
