@@ -60,4 +60,12 @@ $container['view'] = function ($container) {
     return $view;
 };
 
+$container['csrf'] = function ($container) {
+    return new \Slim\Csrf\Guard;
+};
+
+$app->add(new App\Middleware\CsrfViewMiddleware($container));
+
+$app->add($container->csrf);
+
 require __DIR__ . '/../app/routes.php';

@@ -5,8 +5,8 @@
         <div class="col-md-6 offset-3">
             <div class="card">
                 <div class="card-body">
-                    <h1 class="card-title">Sign Up</h1>
-                    <form method="POST" autocomplete="off" action="{{ path_for('auth.signup') }}">
+                    <h1 class="card-title">Sign In</h1>
+                    <form method="POST" autocomplete="off" action="{{ path_for('auth.signin') }}">
                         <div class="form-group">
                             <label>Email address</label>
                             <input type="email" class="form-control{% if has_error('email') %} is-invalid{% endif %}"
@@ -18,16 +18,6 @@
                             {% endif %}
                         </div>
                         <div class="form-group">
-                            <label>Your name</label>
-                            <input type="text" class="form-control{% if has_error('name') %} is-invalid{% endif %}"
-                                   name="name"
-                                   value="{{ val('name') }}"
-                                   placeholder="Enter your name">
-                            {% if has_error('name') %}
-                                <small class="form-text text-danger">{{ error('name') }}</small>
-                            {% endif %}
-                        </div>
-                        <div class="form-group">
                             <label>Password</label>
                             <input type="password" class="form-control{% if has_error('password') %} is-invalid{% endif %}"
                                    name="password"
@@ -36,17 +26,8 @@
                                 <small class="form-text text-danger">{{ error('password') }}</small>
                             {% endif %}
                         </div>
-                        <div class="form-group">
-                            <label>Password confirm</label>
-                            <input type="password" class="form-control{% if has_error('confirm_password') %} is-invalid{% endif %}"
-                                   name="confirm_password"
-                                   placeholder="Password confirm">
-                            {% if has_error('confirm_password') %}
-                                <small class="form-text text-danger">{{ error('confirm_password') }}</small>
-                            {% endif %}
-                        </div>
                         {{ csrf.field | raw }}
-                        <button type="submit" class="btn btn-primary">Sing up</button>
+                        <button type="submit" class="btn btn-primary">Sing in</button>
                     </form>
                 </div>
             </div>

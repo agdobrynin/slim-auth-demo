@@ -42,7 +42,7 @@ class AuthController extends Controller
                     'noWhitespace' => 'Пароль содержит символ "пробел"',
                 ]
             ],
-            'confirm_password' =>[
+            'confirm_password' => [
                 'rules' => V::equals($request->getParam('password')),
                 'message' => 'Пароли не совпадают',
             ],
@@ -62,5 +62,10 @@ class AuthController extends Controller
         ]);
 
         return $response->withRedirect($this->router->pathFor('home'));
+    }
+
+    public function getSignIn(Request $request, Response $response)
+    {
+        return $this->view->render($response, 'auth/signin.twig');
     }
 }
