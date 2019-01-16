@@ -3,7 +3,6 @@
 namespace App\Validation;
 
 use Respect\Validation\Exceptions\NestedValidationException;
-use Respect\Validation\Validator as Respect;
 use Slim\Http\Request;
 
 class Validator
@@ -23,6 +22,9 @@ class Validator
                 $this->errors[$field] = $exception->getMainMessage();
             }
         }
+
+        $_SESSION['errors'] = $this->errors;
+
         return $this;
     }
 

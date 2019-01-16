@@ -7,7 +7,7 @@ use App\Controllers\Controller;
 use App\Models\User;
 use Slim\Http\Request;
 use Slim\Http\Response;
-use Respect\Validation\Validator as Validator;
+use Respect\Validation\Validator as v;
 
 class AuthController extends Controller
 {
@@ -20,9 +20,14 @@ class AuthController extends Controller
     {
         /** @var  App\Validation\Validator $validation */
         $validation = $this->validator->validate($request, [
-            'email' => Validator::email()->setTemplate('Электронная почта обязательное поле'),
-            'name' => Validator::notEmpty()->alpha('а-яА-ЯёЁ')->setTemplate('Имя - обязательное поледолжно содержать только символы'),
-            'password' => Validator::noWhitespace()->notEmpty()->setTemplate('Пароль - обязательное и недолжно содержать пробелов'),
+            'email' => v::email()
+                ->setTemplate('Электронная почта обязательное поле'),
+            'name' => v::regex('/([\-а-яa-z\s]+)/i')
+                ->length(3, null)
+                ->setTemplate('Имя - обязательное поледолжно содержать только символы (не менее 3х)'),
+            'password' => v::notEmpty()
+                ->noWhitespace()
+                ->setTemplate('Пароль - обязательное и недолжно содержать пробелов'),
         ]);
 
         if ($validation->failed()) {
