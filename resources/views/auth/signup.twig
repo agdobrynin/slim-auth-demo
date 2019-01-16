@@ -14,7 +14,7 @@
                                    value="{{ old.email }}"
                                    placeholder="Enter email">
                             {% if errors.email %}
-                                <small class="form-text text-danger">{{ errors.email }}</small>
+                                <small class="form-text text-danger">{{ errors.email | first }}</small>
                             {% endif %}
                         </div>
                         <div class="form-group">
@@ -24,7 +24,7 @@
                                    value="{{ old.name }}"
                                    placeholder="Enter your name">
                             {% if errors.name %}
-                                <small class="form-text text-danger">{{ errors.name }}</small>
+                                <small class="form-text text-danger">{{ errors.name | first }}</small>
                             {% endif %}
                         </div>
                         <div class="form-group">
@@ -33,7 +33,7 @@
                                    name="password"
                                    placeholder="Password">
                             {% if errors.password %}
-                                <small class="form-text text-danger">{{ errors.password }}</small>
+                                <small class="form-text text-danger">{{ errors.password | first }}</small>
                             {% endif %}
                         </div>
                         <button type="submit" class="btn btn-primary">Sing up</button>

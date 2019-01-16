@@ -19,7 +19,12 @@ class Validator
                 }
                 $rule->assert($request->getParam($field));
             } catch (NestedValidationException $exception) {
-                $this->errors[$field] = $exception->getMainMessage();
+                // Перевод для ошибок по email-у
+                $exception->findMessages([
+                    'email' => 'Некорректный формат электронной почты',
+                    'emailAvailable' => 'Такой адрес электронной почты уже зарегистрирован',
+                ]);
+                $this->errors[$field] = $exception->getMessages();
             }
         }
 

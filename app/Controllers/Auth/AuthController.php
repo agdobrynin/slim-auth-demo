@@ -21,13 +21,14 @@ class AuthController extends Controller
         /** @var  App\Validation\Validator $validation */
         $validation = $this->validator->validate($request, [
             'email' => v::email()
-                ->setTemplate('Электронная почта обязательное поле'),
+                ->emailAvailable(),
             'name' => v::regex('/([\-а-яa-z\s]+)/i')
                 ->length(3, null)
                 ->setTemplate('Имя - обязательное поледолжно содержать только символы (не менее 3х)'),
             'password' => v::notEmpty()
                 ->noWhitespace()
-                ->setTemplate('Пароль - обязательное и недолжно содержать пробелов'),
+                ->length(6, null)
+                ->setTemplate('Пароль - не менее 6-ти сиволов, недолжно содержать пробелов'),
         ]);
 
         if ($validation->failed()) {
