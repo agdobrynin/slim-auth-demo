@@ -28,7 +28,8 @@ class AuthController extends Controller
             'password' => v::notEmpty()
                 ->noWhitespace()
                 ->length(6, null)
-                ->setTemplate('Пароль - не менее 6-ти сиволов, недолжно содержать пробелов'),
+                ->setTemplate('Пароль - не менее 6-ти сиволов, недолжен содержать пробелов')
+                ->setName('Пароль'),
         ]);
 
         if ($validation->failed()) {

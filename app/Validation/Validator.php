@@ -23,6 +23,8 @@ class Validator
                 $exception->findMessages([
                     'email' => 'Некорректный формат электронной почты',
                     'emailAvailable' => 'Такой адрес электронной почты уже зарегистрирован',
+                    'noWhitespace' => 'Использование символа пробел запрещено',
+                    'notEmpty' => 'Поле {{name}} не может быть пустым',
                 ]);
                 $this->errors[$field] = $exception->getMessages();
             }
