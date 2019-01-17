@@ -3,9 +3,9 @@
 namespace App\Controllers\Auth;
 
 use App\Controllers\Controller;
-use Slim\Http\Request;
-use Slim\Http\Response;
-use Respect\Validation\Validator as V;
+use \Psr\Http\Message\ServerRequestInterface as Request;
+use \Psr\Http\Message\ResponseInterface as Response;
+use \Respect\Validation\Validator as V;
 
 class PasswordController extends Controller
 {

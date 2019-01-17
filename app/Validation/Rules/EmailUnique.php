@@ -3,7 +3,7 @@
 namespace App\Validation\Rules;
 
 use App\Models\User;
-use Respect\Validation\Rules\AbstractRule;
+use \Respect\Validation\Rules\AbstractRule;
 
 class EmailUnique extends AbstractRule
 {
